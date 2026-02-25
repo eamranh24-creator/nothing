@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy Birthday ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+* { box-sizing: border-box; font-family: 'Baloo 2', cursive; }
+
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(#ffe6eb, #f7e9ff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.card {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+}
+
+h1 { color: #ff4d88; }
+
+.countdown {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.time-box {
+  background: #fff5f8;
+  border-radius: 12px;
+  padding: 10px;
+  width: 70px;
+}
+
+.number { font-size: 20px; color: #8a2be2; font-weight: 600; }
+.label { font-size: 12px; color: #ff7aa2; }
+
+.hidden { display: none; }
+
+button {
+  background: #ff4d88;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+/* Cake */
+.cake {
+  margin: 20px auto;
+  width: 200px;
+  height: 120px;
+  background: #ffb6c1;
+  border-radius: 0 0 20px 20px;
+  position: relative;
+}
+
+.candle {
+  position: absolute;
+  width: 8px;
+  height: 25px;
+  background: white;
+  top: -25px;
+}
+
+.flame {
+  width: 10px;
+  height: 15px;
+  background: orange;
+  border-radius: 50%;
+  position: absolute;
+  top: -15px;
+  left: -1px;
+  display: none;
+  animation: flicker 0.3s infinite alternate;
+}
+
+@keyframes flicker {
+  from { transform: scale(1); opacity: 0.8; }
+  to { transform: scale(1.2); opacity: 1; }
+}
+</style>
+</head>
+<body>
+
+<!-- COUNTDOWN PAGE -->
+<div class="card" id="countdownPage">
+  <h1>Special Day Coming 💕</h1>
+
+  <div class="countdown">
+    <div class="time-box">
+      <div class="number" id="days">0</div>
+      <div class="label">Days</div>
+    </div>
+    <div class="time-box">
+      <div class="number" id="hours">0</div>
+      <div class="label">Hours</div>
+    </div>
+    <div class="time-box">
+      <div class="number" id="minutes">0</div>
+      <div class="label">Minutes</div>
+    </div>
+    <div class="time-box">
+      <div class="number" id="seconds">30</div>
+      <div class="label">Seconds</div>
+    </div>
+  </div>
+
+  <p>Wait for it My Jann 💕 / My Princess 👑</p>
+</div>
+
+<!-- CAKE PAGE -->
+<div class="card hidden" id="cakePage">
+  <h1>🎂 Make a Wish 🎂</h1>
+  <p>Click the button to light 19 candles</p>
+
+  <div class="cake" id="cake"></div>
+
+  <button onclick="lightCandles()">Light Candles 🕯</button>
+</div>
+
+<!-- MESSAGE PAGE -->
+<div class="card hidden" id="messagePage">
+  <h1>Happy 19th Birthday ❤️</h1>
+  <p id="nickname"></p>
+
+  <p>
+    You are my happiness, my peace, my everything.  
+    I’m so lucky to have you in my life 💕
+  </p>
+
+  <p>Forever yours ❤️</p>
+</div>
+
+<script>
+// Random nickname
+const names = ["My Jann 💕", "My Princess 👑"];
+const randomName = names[Math.floor(Math.random()*names.length)];
+document.getElementById("nickname").innerText = randomName;
+
+// 30 sec countdown but showing all units
+let totalSeconds = 30;
+
+const timer = setInterval(() => {
+  totalSeconds--;
+
+  let days = Math.floor(totalSeconds / (24*3600));
+  let hours = Math.floor((totalSeconds % (24*3600)) / 3600);
+  let minutes = Math.floor((totalSeconds % 3600) / 60);
+  let seconds = totalSeconds % 60;
+
+  document.getElementById("days").innerText = days;
+  document.getElementById("hours").innerText = hours;
+  document.getElementById("minutes").innerText = minutes;
+  document.getElementById("seconds").innerText = seconds;
+
+  if (totalSeconds <= 0) {
+    clearInterval(timer);
+    document.getElementById("countdownPage").classList.add("hidden");
+    document.getElementById("cakePage").classList.remove("hidden");
+    createCandles();
+  }
+},1000);
+
+// Create 19 candles (number shape style simple row)
+function createCandles(){
+  const cake = document.getElementById("cake");
+  for(let i=0;i<19;i++){
+    const candle = document.createElement("div");
+    candle.className = "candle";
+    candle.style.left = (10 + i*9) + "px";
+
+    const flame = document.createElement("div");
+    flame.className = "flame";
+
+    candle.appendChild(flame);
+    cake.appendChild(candle);
+  }
+}
+
+function lightCandles(){
+  const flames = document.querySelectorAll(".flame");
+  flames.forEach(f => f.style.display = "block");
+
+  setTimeout(()=>{
+    document.getElementById("cakePage").classList.add("hidden");
+    document.getElementById("messagePage").classList.remove("hidden");
+  },3000);
+}
+</script>
+
+</body>
+</html>
